@@ -1,0 +1,6 @@
+
+struct NumbersType;
+impl NumbersType
+{
+    
+}
