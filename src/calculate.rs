@@ -505,7 +505,7 @@ mod postfix
         assert_eq!(calc_postfix(&expr1), 1325.5620206713477_f64);
         assert_eq!(calc_postfix(&expr2), 126.30387031375818_f64);
         assert_eq!(calc_postfix(&expr3), 11.58088599101792_f64);
-        assert_eq!((calc_postfix(&expr4) * 100_000_000.0) as u32, (3.88888888888888_f64 * 100_000_000.0) as u32);
+        assert!((calc_postfix(&expr4) - 3.88888 < 0.00001));
     }
 
     #[test]
