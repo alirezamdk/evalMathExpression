@@ -91,9 +91,9 @@ fn priority(term: Term) -> i8
 }
 
 
-pub fn postfix_to_infix()
+pub fn postfix_to_infix() -> Result<VecDeque<Term>, String>
 {
-    
+    todo!()
 }
 
 pub fn infix_to_postfix(expr: &VecDeque<Term>) -> VecDeque<Term>
