@@ -404,13 +404,13 @@ mod postfix
                             Opratr(Mul), Oprand(9.0), Opratr(Div),
                             Oprand(3.0), Opratr(Add), Oprand(6.0)]);
 
-        // 1+^2-2*7^3/4-5
+        // 1+2-2*7^3/4-5
         let expr6: VecDeque<Term> 
-        = VecDeque::from(   [Oprand(1.0), Opratr(Add), Opratr(Pow), 
-                            Oprand(2.0), Opratr(Sub), Oprand(2.0), 
-                            Opratr(Mul), Oprand(7.0), Opratr(Pow), 
-                            Oprand(3.0), Opratr(Div), Oprand(4.0), 
-                            Opratr(Sub), Oprand(5.0)]);
+        = VecDeque::from(   [Oprand(1.0), Opratr(Add), Oprand(2.0), 
+                            Opratr(Sub), Oprand(2.0), Opratr(Mul), 
+                            Oprand(7.0), Opratr(Pow), Oprand(3.0), 
+                            Opratr(Div), Oprand(4.0), Opratr(Sub), 
+                            Oprand(5.0)]);
 
         // ((((8-0)/(5+5*6))^5+7+(((2-3)*4)/4^(2-0)^2)-4)+2*4)^3
         let expr7: VecDeque<Term> 
@@ -448,11 +448,11 @@ mod postfix
                                             Opratr(Mul), Oprand(3.0), Opratr(Div),
                                             Opratr(Add), Oprand(6.0), Opratr(Add)]);
 
-        assert_eq!(infix_to_postfix(&expr6),  [Oprand(1.0), Oprand(2.0), Opratr(Pow), 
-                                            Opratr(Add), Oprand(2.0), Oprand(7.0), 
-                                            Oprand(3.0), Opratr(Pow), Opratr(Mul), 
-                                            Oprand(4.0), Opratr(Div), Opratr(Sub), 
-                                            Oprand(5.0), Opratr(Sub)]);
+        assert_eq!(infix_to_postfix(&expr6),    [Oprand(1.0), Oprand(2.0), Opratr(Add), 
+                                                Oprand(2.0), Oprand(7.0), Oprand(3.0), 
+                                                Opratr(Pow), Opratr(Mul), Oprand(4.0), 
+                                                Opratr(Div), Opratr(Sub), Oprand(5.0), 
+                                                Opratr(Sub)]);
 
         assert_eq!(infix_to_postfix(&expr7),  [Oprand(8.0), Oprand(0.0), Opratr(Sub), 
                                             Oprand(5.0), Oprand(5.0), Oprand(6.0), 
