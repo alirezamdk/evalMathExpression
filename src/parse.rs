@@ -84,6 +84,7 @@ impl<'a> Parser<'a>
         self.parse.clone()
     }
 
+    #[inline]
     fn str_to_f64(input: &str) -> NumsType
     {
         input.parse::<NumsType>()
@@ -163,6 +164,7 @@ impl<'a> Parser<'a>
         }
     }
 
+    #[inline]
     fn get_operator(expr: &str, pos: &mut usize) -> Term
     {
         let len = expr.chars().count();
@@ -177,7 +179,7 @@ impl<'a> Parser<'a>
             end += 1;
         }
 
-        println!("ress: {}", &expr[*pos..end]);
+        // println!("res: {}", &expr[*pos..end]);
 
         let res = Self::operator(&expr[*pos..end]);
 
