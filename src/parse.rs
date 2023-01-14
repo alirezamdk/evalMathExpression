@@ -33,8 +33,8 @@ impl<'a> Parser<'a>
         while let Some(chars) = self.expr.chars().nth(count)
         {
             println!("sc: {chars}");
-            operator = Self::get_operator(&self.expr, &mut count);
 
+            
             // get number 
             if chars.is_numeric() || chars == '.' 
             {
@@ -44,6 +44,8 @@ impl<'a> Parser<'a>
                 count += 1;
                 continue;
             }
+
+            operator = Self::get_operator_e(&self.expr, &mut count);
 
             if operator == Bracts(Brackets::Oparantes)
             {
@@ -186,6 +188,30 @@ impl<'a> Parser<'a>
         // println!("op: {:?}", out);
         out
 
+    }
+
+    fn get_operator_e(expr: &str, pos: &mut usize) -> Term
+    {
+        let len = expr.chars().count();
+        let mut end = *pos;
+
+        while end < len && expr.chars().nth(end).unwrap().is_alphabetic() 
+        {
+            end += 1;
+        }
+        if end == *pos
+        {
+            end += 1;
+        }
+
+        println!("ress: {}", &expr[*pos..end]);
+
+        let res = Self::operator(&expr[*pos..end]);
+
+        *pos = end;
+
+        // println!("op: {:?}", out);
+        res
     }
 }
 
