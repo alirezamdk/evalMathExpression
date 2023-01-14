@@ -45,7 +45,7 @@ impl<'a> Parser<'a>
                 continue;
             }
 
-            operator = Self::get_operator_e(&self.expr, &mut count);
+            operator = Self::get_operator(&self.expr, &mut count);
 
             if operator == Bracts(Brackets::Oparantes)
             {
@@ -165,41 +165,14 @@ impl<'a> Parser<'a>
 
     fn get_operator(expr: &str, pos: &mut usize) -> Term
     {
-        let mut res: Term;
-        let mut out: Term = Opratr(Operator::Unknown);
-        let len = expr.chars().count();
-        let mut temp: usize = 0;
-
-        for i in 1 ..= len - *pos 
-        {
-            if i > 9 || (*pos + i) > len
-                { break }
-
-            res = Self::operator(&expr[*pos..*pos + i]);
-
-            if res != Opratr(Operator::Unknown)
-            {
-                out = res;
-                temp = i;
-            }
-        }
-
-        *pos += temp;
-        // println!("op: {:?}", out);
-        out
-
-    }
-
-    fn get_operator_e(expr: &str, pos: &mut usize) -> Term
-    {
         let len = expr.chars().count();
         let mut end = *pos;
 
-        while end < len && expr.chars().nth(end).unwrap().is_alphabetic() 
+        while end < len && expr.chars().nth(end).unwrap().is_alphabetic()
         {
             end += 1;
         }
-        if end == *pos
+        if end < len && end == *pos
         {
             end += 1;
         }
@@ -208,7 +181,12 @@ impl<'a> Parser<'a>
 
         let res = Self::operator(&expr[*pos..end]);
 
-        *pos = end;
+        if end > *pos && res != Opratr(Operator::Unknown)
+        {
+            *pos = end;
+        }
+        
+
 
         // println!("op: {:?}", out);
         res
@@ -256,7 +234,7 @@ mod test_parse
         let expr2 = parse!("(log(5!))+pi/2^%++");
         let expr3 = parse!("54635.4354325-86554654.547547+765766578657656");
         let expr4 = parse!("ceil floor () []^e Ln      8.0001+7");
-        let expr5 = parse!("arcsinhfloorceilphi[]()+0.9+5!!++arccotanh(pi*7)");
+        let expr5 = parse!("arcsinh floor ceil phi[]()+0.9+5!!++arccotanh(pi*7)");
 
 
         assert_eq!(expr1,   [Oprand(1.0), Opratr(Add), Oprand(3.14)]);
