@@ -19,14 +19,13 @@ impl<'a> Parser<'a>
     pub fn parse(&mut self) -> VecDeque<Term>
     {
         // this stack store parsed math expression
-        // let mut self.parse: VecDeque<Term> = VecDeque::new();
         // to store numbers
         let mut str_number = String::new();
 
         let mut operator: Term;
         let mut count: usize = 0;
 
-        // this flag helps to find negative unraies in expression 
+        // this flag helps to find negative unary in expression 
         let mut neg = false;
 
         // read string char by char 
@@ -189,8 +188,6 @@ impl<'a> Parser<'a>
         }
         
 
-
-        // println!("op: {:?}", out);
         res
     }
 }
