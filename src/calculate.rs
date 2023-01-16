@@ -263,11 +263,6 @@ pub fn calc_postfix(expr: &VecDeque<Term>) -> NumsType
                         let (b, a) = pop_2_back(&mut res_stack);
                         math::log(a, b)
                     }
-                    Function::Log10 => 
-                    {
-                        let a = res_stack.pop_back().expect("experssion problem");
-                        math::log(10.0, a)
-                    }
                     Function::Ln => 
                     {
                         let a = res_stack.pop_back().expect("experssion problem");
