@@ -52,7 +52,6 @@ pub enum Function
     Cnr,        // c(n, r)
 
     Log,        // log[n](m)
-    Log10,      // log10(n)
     Ln,         // ln(n)
 
     Floor,      // floor(n)

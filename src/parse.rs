@@ -137,7 +137,6 @@ pub mod parser
 
             "ln" => { Functs(Function::Ln) }
             "log" => { Functs(Function::Log) }
-            "log10" => { Functs(Function::Log10)}
             "perm" => { Functs(Function::Pnr) }, // Permutation
             "comp" => { Functs(Function::Cnr) }, // Composition
             "round" => { Functs(Function::Round) }
