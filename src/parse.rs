@@ -4,7 +4,7 @@
 
 pub mod parser
 {
-    use std::{collections::VecDeque, fmt::Display};
+    use std::{collections::VecDeque};
     use crate::general::tokens::*;
     use Term::*;
     /// The function begins by initializing a "str_number" string and an "operator" variable. 
