@@ -7,23 +7,16 @@ pub mod parser
     use std::{collections::VecDeque};
     use crate::general::tokens::*;
     use Term::*;
-    /// The function begins by initializing a "str_number" string and an "operator" variable. 
-    /// It then reads the expression one character at a time. If a character is numeric, 
-    /// it is added to the "str_number" string. If the character is an operator, the function 
-    /// uses the "get_operator" function to determine the operator, and then adds it to a stack. 
-    /// If the operator is a left bracket, a "neg" flag is set to true. If the operator is a 
-    /// negative sign and the "neg" flag is not set, the function pushes the "neg" operator 
-    /// onto the stack. If the "str_number" string is not empty, the number is converted to 
-    /// a float and added to the stack. If the operator is a right bracket, the "neg" flag 
-    /// is set to true. If the operator is unknown, a count is incremented. Finally, if there 
-    /// is a number left in the "str_number" string, it is converted to a float and added to 
-    /// the stack, and the stack is returned. 
-    /// 
+    
+    /// This function takes a string 'expr' and returns a VecDeque of Terms.The purpose 
+    /// of this function is to parse the input mathematical expression, which is passed 
+    /// as string, into a series of terms that can be used for further processing or e-
+    /// valuation.
+    ///
     /// # Example
     /// ```
-    /// use crate::parse::parser;
-    /// use crate::general::tokens::Operator::*;
-    /// use Term::{Oprand, Opratr};
+    /// use crate::evalmath::parse::parser;
+    /// use evalmath::general::tokens::{Operator::*, Term::{Oprand, Opratr}};
     /// 
     /// let parser = parser::parse("-1+3");
     /// assert_eq!(parser, vec![Opratr(Neg), Oprand(1.0), Opratr(Add), Oprand(3.0)]);
@@ -47,7 +40,7 @@ pub mod parser
         // read string char by char 
         while let Some(chars) = expr.chars().nth(count)
         {
-            println!("sc: {chars}");
+            // println!("sc: {chars}");
 
             // get number 
             if chars.is_numeric() || chars == '.' 
@@ -226,7 +219,6 @@ macro_rules! parse
 #[cfg(test)]
 mod test_parse
 {
-
     use crate::general::tokens::*;
     use Term::{Oprand, Opratr, Bracts, Functs, Constn};
     use Operator::*;
