@@ -353,8 +353,8 @@ pub fn calc_postfix(expr: &VecDeque<Term>) -> NumsType
         }
 
         term_num += 1;
-        println!("term:   {:?}", term);
-        println!("stack:  {:?}\n", res_stack);
+        // println!("term:   {:?}", term);
+        // println!("stack:  {:?}\n", res_stack);
     }
     *res_stack.front().unwrap()
 }
