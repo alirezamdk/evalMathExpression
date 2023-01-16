@@ -134,7 +134,6 @@ pub mod math
 
         while let Some(term) = expr.get(*term_num)
         {
-            println!("term in count_op: {:?}", term);
             match term 
             {
                 Term::Oprand(_) |
@@ -160,7 +159,6 @@ pub mod math
 
         let count_op: usize = count_op(expr, term_num);
         
-        println!("numer: {}", count_op);
 
         let res_stack_len = res_stack.len();
         if res_stack_len > 0
