@@ -2,7 +2,7 @@ use std::{collections::VecDeque};
 mod parse;
 use crate::parse::*;
 mod general;
-use crate::general::terms::Term;
+use crate::general::tokens::Term;
 mod calculate;
 use crate::calculate::*;
 

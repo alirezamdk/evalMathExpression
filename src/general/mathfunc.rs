@@ -2,7 +2,7 @@
 pub mod math
 {
     use std::{collections::VecDeque};
-    use crate::general::terms::*;
+    use crate::general::tokens::*;
 
     pub fn power(a: NumsType, b: NumsType) -> NumsType
     {

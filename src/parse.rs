@@ -1,5 +1,5 @@
 use std::{collections::VecDeque, fmt::Display};
-use crate::general::terms::*;
+use crate::general::tokens::*;
 use Term::*;
 
 
@@ -16,6 +16,19 @@ impl<'a> Parser<'a>
         Self { expr: Box::leak(Box::new(expr.to_ascii_lowercase())), parse: VecDeque::new()}
     }
 
+    // The function starts by initializing the "str_number" string and "operator" 
+    // variable, and then reads the expression character by character. If a character is numeric, it is added to the "str_number" 
+    // string. If the character is an operator, the operator is determined using the 
+    // "get_operator" function, and the operator is then added to the stack. If the 
+    // operator is a left bracket, the "neg" flag is set to true. If the operator 
+    // is a negative sign and the "neg" flag is not set, the function pushes the "neg" 
+    // operator onto the stack. If the "str_number" string is not empty, the number 
+    // is converted to a float and added to the stack. If the operator is a right 
+    // bracket, the "neg" flag is set to true. If the operator is unknown, the count 
+    // is incremented. Finally, if there is a number left in the "str_number" string, 
+    // it is converted to a float and added to the stack, and the stack is returned 
+    // as a clone.
+
     pub fn parse(&mut self) -> VecDeque<Term>
     {
         // this stack store parsed math expression
@@ -26,7 +39,9 @@ impl<'a> Parser<'a>
         let mut count: usize = 0;
 
         // this flag helps to find negative unary in expression 
-        let mut neg = false;
+        // true means we mey have a negative sign and false means 
+        // the sub operator absolutely is subtraction sign. 
+        let mut neg = true;
 
         // read string char by char 
         while let Some(chars) = self.expr.chars().nth(count)
@@ -37,7 +52,7 @@ impl<'a> Parser<'a>
             // get number 
             if chars.is_numeric() || chars == '.' 
             {
-                neg = true;
+                neg = false;
                 // add numbers to this string
                 str_number += &chars.to_string();
                 count += 1;
@@ -46,11 +61,12 @@ impl<'a> Parser<'a>
 
             operator = Self::get_operator(&self.expr, &mut count);
 
+            // after open bracket we may have a negative sign, so set neg flag to true
             if operator == Bracts(Brackets::Oparantes)
             {
-                neg = true;
+                neg = false;
             }
-            if operator == Opratr(Operator::Sub) && !neg
+            if operator == Opratr(Operator::Sub) && neg
             {
                 self.parse.push_back(Opratr(Operator::Neg));
                 continue;
@@ -64,12 +80,12 @@ impl<'a> Parser<'a>
             }
             if operator != Opratr(Operator::Unknown)
             {
-                neg = false;
+                neg = true;
                 self.parse.push_back(operator)
             }
             if operator == Bracts(Brackets::Cparantes)
             {
-                neg = true;
+                neg = false;
             }
             if operator == Opratr(Operator::Unknown)
                 { count += 1; }
@@ -217,7 +233,7 @@ macro_rules! parse
 mod test_parse
 {
 
-    use crate::general::terms::*;
+    use crate::general::tokens::*;
     use Term::{Oprand, Opratr, Bracts, Functs, Constn};
     use Operator::*;
     use Brackets::*;

@@ -1,6 +1,6 @@
 use core::num;
 use std::{collections::VecDeque};
-use crate::general::{terms::*, mathfunc::math};
+use crate::general::{tokens::*, mathfunc::math};
 
 
 trait Calculate 
