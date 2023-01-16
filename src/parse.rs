@@ -6,14 +6,13 @@ use Term::*;
 pub struct Parser<'a>
 {
     expr: &'a str,
-    parse: VecDeque<Term>
 }
 
 impl<'a> Parser<'a>
 {
     pub fn new(expr: &'a str) -> Self
     {
-        Self { expr: Box::leak(Box::new(expr.to_ascii_lowercase())), parse: VecDeque::new()}
+        Self { expr: Box::leak(Box::new(expr.to_ascii_lowercase())) }
     }
 
     // The function starts by initializing the "str_number" string and "operator" 
@@ -34,7 +33,7 @@ impl<'a> Parser<'a>
         // this stack store parsed math expression
         // to store numbers
         let mut str_number = String::new();
-
+        let mut parse: VecDeque<Term> = VecDeque::new();
         let mut operator: Term;
         let mut count: usize = 0;
 
@@ -48,55 +47,58 @@ impl<'a> Parser<'a>
         {
             println!("sc: {chars}");
 
-            
             // get number 
             if chars.is_numeric() || chars == '.' 
             {
+                // after number we dont have a neg sign
                 neg = false;
                 // add numbers to this string
                 str_number += &chars.to_string();
                 count += 1;
                 continue;
             }
-
-            operator = Self::get_operator(&self.expr, &mut count);
-
-            // after open bracket we may have a negative sign, so set neg flag to true
-            if operator == Bracts(Brackets::Oparantes)
-            {
-                neg = false;
-            }
-            if operator == Opratr(Operator::Sub) && neg
-            {
-                self.parse.push_back(Opratr(Operator::Neg));
-                continue;
-            }
+            
             // push oprand to result stack
             if !str_number.is_empty() 
             {
                 let oprand = Self::str_to_f64(&str_number);
-                self.parse.push_back(Term::Oprand(oprand));
+                parse.push_back(Term::Oprand(oprand));
                 str_number.clear();
             }
-            if operator != Opratr(Operator::Unknown)
+            
+            operator = Self::get_operator(&self.expr, &mut count);
+
+            match operator 
             {
-                neg = true;
-                self.parse.push_back(operator)
+                Opratr(Operator::Sub) if neg => 
+                {
+                    parse.push_back(Opratr(Operator::Neg));
+                    continue;
+                },
+                Opratr(Operator::Unknown) => 
+                {
+                    count += 1;
+                }
+                _ => 
+                {
+                    // after any operators we may have a negative sign, so it sets neg flag to true
+                    neg = true;
+                    parse.push_back(operator);
+                    // but after close bracket we absolutely have a sub sign, set neg flag to false
+                    if let Bracts(Brackets::Cparantes) = operator
+                    {
+                        neg = false;
+                    }
+                },
             }
-            if operator == Bracts(Brackets::Cparantes)
-            {
-                neg = false;
-            }
-            if operator == Opratr(Operator::Unknown)
-                { count += 1; }
         }
         // input last number if exist
         if !str_number.is_empty()
         {
-            self.parse.push_back(Term::Oprand(Self::str_to_f64(&str_number)));
+            parse.push_back(Term::Oprand(Self::str_to_f64(&str_number)));
         }
         
-        self.parse.clone()
+        parse
     }
 
     #[inline]
@@ -202,20 +204,11 @@ impl<'a> Parser<'a>
         {
             *pos = end;
         }
-        
 
         res
     }
 }
 
-
-impl<'a> Display for Parser<'a>
-{
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result 
-    {
-        write!(f, "{:?}", self.parse)
-    }
-}
 
 
 #[macro_export]
