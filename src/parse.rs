@@ -34,7 +34,7 @@ pub mod parser
     {
         // this stack store parsed math expression
         // to store numbers
-        let mut str_number = String::new();
+        let mut str_number: Vec<char> = Vec::new();
         let mut parse: VecDeque<Term> = VecDeque::new();
         let mut operator: Term;
         let mut count: usize = 0;
@@ -55,7 +55,7 @@ pub mod parser
                 // after number we dont have a neg sign
                 neg = false;
                 // add numbers to this string
-                str_number += &chars.to_string();
+                str_number.push(chars);
                 count += 1;
                 continue;
             }
@@ -104,9 +104,9 @@ pub mod parser
     }
 
     #[inline]
-    fn str_to_f64(input: &str) -> NumsType
+    fn str_to_f64(input: &Vec<char>) -> NumsType
     {
-        input.parse::<NumsType>()
+        String::from_iter(input).parse::<NumsType>()
             .expect("str to f64 problem")
     }
 
