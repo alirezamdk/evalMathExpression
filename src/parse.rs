@@ -1,20 +1,12 @@
-use std::{collections::VecDeque, fmt::Display};
-use crate::general::tokens::*;
-use Term::*;
 
 
-pub struct Parser<'a>
+
+
+pub mod parser
 {
-    expr: &'a str,
-}
-
-impl<'a> Parser<'a>
-{
-    pub fn new(expr: &'a str) -> Self
-    {
-        Self { expr: Box::leak(Box::new(expr.to_ascii_lowercase())) }
-    }
-
+    use std::{collections::VecDeque, fmt::Display};
+    use crate::general::tokens::*;
+    use Term::*;
     /// The function begins by initializing a "str_number" string and an "operator" variable. 
     /// It then reads the expression one character at a time. If a character is numeric, 
     /// it is added to the "str_number" string. If the character is an operator, the function 
@@ -29,17 +21,16 @@ impl<'a> Parser<'a>
     /// 
     /// # Example
     /// ```
-    /// use crate::parse::*;
-    /// use crate::general::tokens::*;
+    /// use crate::parse::parser;
+    /// use crate::general::tokens::Operator::*;
+    /// use Term::{Oprand, Opratr};
     /// 
-    /// let parser = Parser::new();
-    /// let parser = parser.parse("-1+3");
-    /// 
-    /// assert_eq(parser, vec![Opratr(Neg), Oprand(1.0), Opratr(Add), Oprand(3.0)]);
+    /// let parser = parser::parse("-1+3");
+    /// assert_eq!(parser, vec![Opratr(Neg), Oprand(1.0), Opratr(Add), Oprand(3.0)]);
     /// 
     /// ```
 
-    pub fn parse(&mut self) -> VecDeque<Term>
+    pub fn parse(expr: &str) -> VecDeque<Term>
     {
         // this stack store parsed math expression
         // to store numbers
@@ -54,7 +45,7 @@ impl<'a> Parser<'a>
         let mut neg = true;
 
         // read string char by char 
-        while let Some(chars) = self.expr.chars().nth(count)
+        while let Some(chars) = expr.chars().nth(count)
         {
             println!("sc: {chars}");
 
@@ -72,12 +63,12 @@ impl<'a> Parser<'a>
             // push oprand to result stack
             if !str_number.is_empty() 
             {
-                let oprand = Self::str_to_f64(&str_number);
+                let oprand = str_to_f64(&str_number);
                 parse.push_back(Term::Oprand(oprand));
                 str_number.clear();
             }
             
-            operator = Self::get_operator(&self.expr, &mut count);
+            operator = get_operator(&expr, &mut count);
 
             match operator 
             {
@@ -106,7 +97,7 @@ impl<'a> Parser<'a>
         // input last number if exist
         if !str_number.is_empty()
         {
-            parse.push_back(Term::Oprand(Self::str_to_f64(&str_number)));
+            parse.push_back(Term::Oprand(str_to_f64(&str_number)));
         }
         
         parse
@@ -209,7 +200,7 @@ impl<'a> Parser<'a>
 
         // println!("res: {}", &expr[*pos..end]);
 
-        let res = Self::operator(&expr[*pos..end]);
+        let res = operator(&expr[*pos..end]);
 
         if end > *pos && res != Opratr(Operator::Unknown)
         {
@@ -227,7 +218,7 @@ macro_rules! parse
 {
     ($ex: expr) => 
     {
-        crate::Parser::new($ex).parse()
+        crate::parse::parser::parse(&$ex.to_ascii_lowercase())
     };
 }
 
