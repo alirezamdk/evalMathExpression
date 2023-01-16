@@ -15,18 +15,29 @@ impl<'a> Parser<'a>
         Self { expr: Box::leak(Box::new(expr.to_ascii_lowercase())) }
     }
 
-    // The function starts by initializing the "str_number" string and "operator" 
-    // variable, and then reads the expression character by character. If a character is numeric, it is added to the "str_number" 
-    // string. If the character is an operator, the operator is determined using the 
-    // "get_operator" function, and the operator is then added to the stack. If the 
-    // operator is a left bracket, the "neg" flag is set to true. If the operator 
-    // is a negative sign and the "neg" flag is not set, the function pushes the "neg" 
-    // operator onto the stack. If the "str_number" string is not empty, the number 
-    // is converted to a float and added to the stack. If the operator is a right 
-    // bracket, the "neg" flag is set to true. If the operator is unknown, the count 
-    // is incremented. Finally, if there is a number left in the "str_number" string, 
-    // it is converted to a float and added to the stack, and the stack is returned 
-    // as a clone.
+    /// The function begins by initializing a "str_number" string and an "operator" variable. 
+    /// It then reads the expression one character at a time. If a character is numeric, 
+    /// it is added to the "str_number" string. If the character is an operator, the function 
+    /// uses the "get_operator" function to determine the operator, and then adds it to a stack. 
+    /// If the operator is a left bracket, a "neg" flag is set to true. If the operator is a 
+    /// negative sign and the "neg" flag is not set, the function pushes the "neg" operator 
+    /// onto the stack. If the "str_number" string is not empty, the number is converted to 
+    /// a float and added to the stack. If the operator is a right bracket, the "neg" flag 
+    /// is set to true. If the operator is unknown, a count is incremented. Finally, if there 
+    /// is a number left in the "str_number" string, it is converted to a float and added to 
+    /// the stack, and the stack is returned. 
+    /// 
+    /// # Example
+    /// ```
+    /// use crate::parse::*;
+    /// use crate::general::tokens::*;
+    /// 
+    /// let parser = Parser::new();
+    /// let parser = parser.parse("-1+3");
+    /// 
+    /// assert_eq(parser, vec![Opratr(Neg), Oprand(1.0), Opratr(Add), Oprand(3.0)]);
+    /// 
+    /// ```
 
     pub fn parse(&mut self) -> VecDeque<Term>
     {
