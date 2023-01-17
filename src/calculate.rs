@@ -3,10 +3,12 @@ use std::{collections::VecDeque};
 use crate::general::{tokens::*, mathfunc::math};
 
 
+static mut ANGEL_MODE: AngelMode = AngelMode::Radians;
+
 pub enum AngelMode
 {
     Degree,     // 0 - 360
-    Radians,    // 0 - 2pi
+    Radians,    // 0 - 2pi - default
     Gradians,   // 0 - 500
 }
 
@@ -72,10 +74,6 @@ fn priority(term: Term) -> i8
 }
 
 
-pub fn postfix_to_infix() -> Result<VecDeque<Term>, String>
-{
-    todo!()
-}
 
 pub fn infix_to_postfix(expr: &VecDeque<Term>) -> VecDeque<Term>
 {
@@ -86,10 +84,10 @@ pub fn infix_to_postfix(expr: &VecDeque<Term>) -> VecDeque<Term>
     {
         match term 
         {
-            Term::Oprand(num)               => postfix_stack.push_back(Term::Oprand(*num)),
-            Term::Constn(constn)       => postfix_stack.push_back(Term::Constn(*constn)),
-            Term::Bracts(Brackets::Oparantes)     => opr_stack.push_back(*term),
-            Term::Bracts(Brackets::Cparantes)     => 
+            Term::Oprand(num)                   => postfix_stack.push_back(Term::Oprand(*num)),
+            Term::Constn(constn)                => postfix_stack.push_back(Term::Constn(*constn)),
+            Term::Bracts(Brackets::Oparantes)   => opr_stack.push_back(*term),
+            Term::Bracts(Brackets::Cparantes)   => 
             {
                 while !(Some(Term::Bracts(Brackets::Oparantes)) == opr_stack.back().copied()
                     || Some(Term::Bracts(Brackets::Obracket)) == opr_stack.back().copied())
@@ -102,14 +100,14 @@ pub fn infix_to_postfix(expr: &VecDeque<Term>) -> VecDeque<Term>
                 if !opr_stack.is_empty()
                     { opr_stack.pop_back().unwrap(); }
             },
-            Term::Opratr(Operator::Neg)           => 
+            Term::Opratr(Operator::Neg)          => 
             {
                 if opr_stack.is_empty()
                     { opr_stack.push_front(Term::Opratr(Operator::Neg)) }
                 else 
                     { opr_stack.push_back(Term::Opratr(Operator::Neg)) }
             }
-            _                                      => 
+            _                                    => 
             {
                 while !opr_stack.is_empty() 
                     && priority(*term) <= priority(opr_stack.back().copied().unwrap())
@@ -132,7 +130,7 @@ pub fn infix_to_postfix(expr: &VecDeque<Term>) -> VecDeque<Term>
     postfix_stack
 }
 
-pub fn to_perfix(expr: &VecDeque<Term>) -> VecDeque<Term>
+pub fn infix_to_perfix(expr: &VecDeque<Term>) -> VecDeque<Term>
 {
     let mut expr = expr.clone();
     let len = expr.len();
@@ -152,13 +150,13 @@ pub fn to_perfix(expr: &VecDeque<Term>) -> VecDeque<Term>
     perfix_stack
 }
 
-fn to_tree()
+fn infix_to_tree()
 {}
 
 fn calc_tree()
 {}
 
-fn to_parantes()
+fn infix_add_parantes()
 {}
 
 fn calc_infix()
@@ -167,14 +165,8 @@ fn calc_infix()
 fn calc_w3()
 {}
 
-fn calc_perfix(expr: &VecDeque<Term>) -> NumsType
-{
-    todo!()
-}
-
 fn pop_2_back(res_stack: &mut VecDeque<f64>) -> (NumsType, NumsType)
 {
-    // let  = 0.0;
     (pop_back(res_stack)
     ,pop_back(res_stack))
 }
@@ -204,7 +196,7 @@ pub fn calc_postfix(expr: &VecDeque<Term>) -> NumsType
                     Operator::Mul => { let (b, a) = pop_2_back(&mut res_stack); a * b }
                     Operator::Pow => { let (b, a) = pop_2_back(&mut res_stack); math::power(a, b) }
                     Operator::Module => { let (b, a) = pop_2_back(&mut res_stack); a % b }
-                    Operator::Neg => { let b = res_stack.pop_back().expect("experssion problem"); -b},
+                    Operator::Neg => { let b = pop_back(&mut res_stack); -b},
                     Operator::Unknown => 0.0,
                 };
                 
@@ -216,12 +208,12 @@ pub fn calc_postfix(expr: &VecDeque<Term>) -> NumsType
                 {
                     Function::Fact => 
                     {
-                        let b = res_stack.pop_back().expect("experssion problem");
+                        let b = pop_back(&mut res_stack);
                         math::fact(b)
                     }
                     Function::Sqrt => 
                     {
-                        let b = res_stack.pop_back().expect("experssion problem");
+                        let b = pop_back(&mut res_stack);
                         math::sqrt(b)
                     }
                     Function::Root => 
@@ -246,27 +238,27 @@ pub fn calc_postfix(expr: &VecDeque<Term>) -> NumsType
                     }
                     Function::Ln => 
                     {
-                        let a = res_stack.pop_back().expect("experssion problem");
+                        let a = pop_back(&mut res_stack);
                         math::ln(a)
                     }
                     Function::Floor => 
                     {
-                        let a = res_stack.pop_back().expect("experssion problem");
+                        let a = pop_back(&mut res_stack);
                         math::floor(a)
                     }
                     Function::Ceil => 
                     {
-                        let a = res_stack.pop_back().expect("experssion problem");
+                        let a = pop_back(&mut res_stack);
                         math::ceil(a)
                     }
                     Function::Round => 
                     {
-                        let a = res_stack.pop_back().expect("experssion problem");
+                        let a = pop_back(&mut res_stack);
                         math::round(a)
                     }
                     Function::Abs => 
                     {
-                        let a = res_stack.pop_back().expect("experssion problem");
+                        let a = pop_back(&mut res_stack);
                         math::abs(a)
                     }
                     
