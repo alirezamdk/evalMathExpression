@@ -6,10 +6,11 @@ use evalmath::calculate::calc_postfix;
 use evalmath::calculate::infix_to_postfix;
 use evalmath::parse::parser::parse;
 
+const BENCH_TEST_INPUT: &str = "1+2*3-4/5^2";
 
 fn bench_parse(c: &mut Criterion) 
 {
-    let input = "1+2*3-4/5";
+    let input = BENCH_TEST_INPUT;
     c.bench_function("parse", move |b| 
     {
         b.iter(|| 
@@ -22,7 +23,8 @@ fn bench_parse(c: &mut Criterion)
 
 fn bench_calculate(c: &mut Criterion) 
 {
-    let parse = parse("1+2*3-4/5^2");
+    let input = BENCH_TEST_INPUT;
+    let parse = parse(input);
     let postfix = infix_to_postfix(&parse);
 
     c.bench_function("postfix calculate", move |b| 
