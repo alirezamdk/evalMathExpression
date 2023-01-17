@@ -25,13 +25,6 @@ pub enum Brackets
     Colon,
 }
 
-pub enum AngelMode
-{
-    Degree,     // 0 - 360
-    Radians,    // 0 - 2pi
-    Gradians,   // 0 - 500
-}
-
 
 #[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
 pub enum Constant

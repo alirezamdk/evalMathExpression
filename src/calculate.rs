@@ -3,6 +3,14 @@ use std::{collections::VecDeque};
 use crate::general::{tokens::*, mathfunc::math};
 
 
+pub enum AngelMode
+{
+    Degree,     // 0 - 360
+    Radians,    // 0 - 2pi
+    Gradians,   // 0 - 500
+}
+
+
 pub enum CalculateAlgorithem
 {
     Infix,
