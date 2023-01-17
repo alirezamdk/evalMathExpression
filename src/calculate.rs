@@ -3,33 +3,6 @@ use std::{collections::VecDeque};
 use crate::general::{tokens::*, mathfunc::math};
 
 
-trait Calculate 
-{
-    
-}
-
-
-struct Postfixx;
-impl Calculate for Postfixx
-{
-
-}
-
-
-impl dyn Calculate 
-{
-    pub fn calculate(expr: &VecDeque<Term>, calc_algorithem: CalculateAlgorithem) -> NumsType
-    {
-        match calc_algorithem
-        {
-            CalculateAlgorithem::Infix => todo!(),
-            CalculateAlgorithem::Postfix => calc_postfix(&infix_to_postfix(expr)),
-            CalculateAlgorithem::Tree => todo!(),
-            CalculateAlgorithem::W3 => todo!(),
-        }
-    }
-}
-
 pub enum CalculateAlgorithem
 {
     Infix,
