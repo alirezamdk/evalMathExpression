@@ -1,10 +1,11 @@
-use evalmath::{calculate::{self, infix_to_postfix}, parse};
-use parse::parser::*;
+extern crate evalmath;
+use evalmath::calculate;
+use calculate::Calculatealgorithm::*;
 
 fn main() 
 {
     let mut input = String::new();
     std::io::stdin().read_line(&mut input).unwrap();
-    let res = calculate::calc_postfix(&infix_to_postfix(&parse!(&input)));
+    let res = calculate!(&input, Postfix);
     println!("Input:  {}\nResult {}", input, res);
 }
