@@ -4,13 +4,13 @@ A simple library for evaluating mathematical expressions in Rust.
 
 ## 🔧&nbsp;&nbsp;&nbsp;&nbsp;Installation 
 
-To use this library in your project, you need to add the math-eval source code to your project, and then add extern crate evalmath to the crate root file, and use evalmath::calculate in the code.
+To use this library in your project, you need to add the evalmath source code to your project, and then add extern crate evalmath to the crate root file, and use evalmath::calculate in the code.
 
 
 ## 💻&nbsp;&nbsp;&nbsp;&nbsp;Usage 
 ```Rust
 extern crate evalmath;
-use matheval::calculate;
+use evalmath::calculate;
 
 fn main() {
     let expr = "-6 + 6 * 6";
