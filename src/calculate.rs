@@ -22,12 +22,12 @@ pub enum Calculatealgorithm
 
 
 
-pub fn calculate(expr: &VecDeque<Term>, calc_algorithm: Calculatealgorithm) -> NumsType
+pub fn calculate(expr: &VecDeque<Term>, calc_algorithm: Calculatealgorithm) -> Result<NumsType, String>
 {
     match calc_algorithm
     {
         Calculatealgorithm::Infix => todo!(),
-        Calculatealgorithm::Postfix => calc_postfix(&infix_to_postfix(expr)),
+        Calculatealgorithm::Postfix => Ok(calc_postfix(&infix_to_postfix(expr))),
         Calculatealgorithm::Tree => todo!(),
         Calculatealgorithm::W3 => todo!(),
     }
@@ -513,14 +513,14 @@ mod postfix
         let expr7 = &parse!("-max(12,2)");
         let expr8 = &parse!("1+max(5!,((((8-0)/(5+5*6))^5+7+(((2-3)*4)/4^(2-0)^2)-4)+2*4)^3,9^9,0)");
 
-        assert_eq!(calculate(expr1, Postfix), 2.0);
-        assert_eq!(calculate(expr2, Postfix), 3.0);
-        assert_eq!(calculate(expr3, Postfix), 14.0);
-        assert_eq!(calculate(expr4, Postfix), 15.0);
-        assert_eq!(calculate(expr5, Postfix), 14.0);
-        assert_eq!(calculate(expr6, Postfix), 10.0);
-        assert_eq!(calculate(expr7, Postfix), -12.0);
-        assert_eq!(calculate(expr8, Postfix), 387420490.0);
+        assert_eq!(calculate(expr1, Postfix).unwrap(), 2.0);
+        assert_eq!(calculate(expr2, Postfix).unwrap(), 3.0);
+        assert_eq!(calculate(expr3, Postfix).unwrap(), 14.0);
+        assert_eq!(calculate(expr4, Postfix).unwrap(), 15.0);
+        assert_eq!(calculate(expr5, Postfix).unwrap(), 14.0);
+        assert_eq!(calculate(expr6, Postfix).unwrap(), 10.0);
+        assert_eq!(calculate(expr7, Postfix).unwrap(), -12.0);
+        assert_eq!(calculate(expr8, Postfix).unwrap(), 387420490.0);
     }
 
     #[test]
