@@ -13,7 +13,7 @@ pub enum AngelMode
 }
 
 
-pub enum CalculateAlgorithem
+pub enum Calculatealgorithm
 {
     Infix,
     Postfix,
@@ -21,14 +21,16 @@ pub enum CalculateAlgorithem
     W3,
 }
 
-pub fn calculate(expr: &VecDeque<Term>, calc_algorithem: CalculateAlgorithem) -> NumsType
+
+
+pub fn calculate(expr: &VecDeque<Term>, calc_algorithm: Calculatealgorithm) -> NumsType
 {
-    match calc_algorithem
+    match calc_algorithm
     {
-        CalculateAlgorithem::Infix => todo!(),
-        CalculateAlgorithem::Postfix => calc_postfix(&infix_to_postfix(expr)),
-        CalculateAlgorithem::Tree => todo!(),
-        CalculateAlgorithem::W3 => todo!(),
+        Calculatealgorithm::Infix => todo!(),
+        Calculatealgorithm::Postfix => calc_postfix(&infix_to_postfix(expr)),
+        Calculatealgorithm::Tree => todo!(),
+        Calculatealgorithm::W3 => todo!(),
     }
 }
 
@@ -332,18 +334,37 @@ pub fn calc_postfix(expr: &VecDeque<Term>) -> NumsType
     *res_stack.front().unwrap()
 }
 
+
+
+#[macro_export]
+macro_rules! calculate
+{
+    ($expression: expr) => 
+    {
+        $crate::calculate::calculate(&$crate::parse!($expression), $crate::calculate::Calculatealgorithm::Postfix)
+    };
+    ($expression: expr, $algorithm: ident) => 
+    {
+        $crate::calculate::calculate(&$crate::parse!($expression), $algorithm)
+    };
+}
+
+
+
+
 #[cfg(test)]
 mod postfix
 {
+    use super::*;
+
     use std::collections::VecDeque;
     use Term::{Oprand, Opratr, Bracts, Functs, Constn};
     use Operator::*;
     use Brackets::*;
     use Constant::*;
     use Function::*;
-    use crate::parse;
 
-    use super::{*, CalculateAlgorithem::*};
+    
 
     #[test]
     fn test_infix_to_postfix()
@@ -479,23 +500,24 @@ mod postfix
     #[test]
     fn test_calculate_postfix_static_func()
     {
-        let expr1 = &parse!("max(-12,2)");
-        let expr2 = &parse!("max(1+2, 2)");
-        let expr3 = &parse!("max(12,2)+2");
-        let expr4 = &parse!("3+max(12,2)");
-        let expr5 = &parse!("max(max(4,6,14), avg(3,4,5), min(2,99))");
-        let expr6 = &parse!("(1+(2+(3+(max(1,2,3,4))))");
-        let expr7 = &parse!("-max(12,2)");
-        let expr8 = &parse!("1+max(5!,((((8-0)/(5+5*6))^5+7+(((2-3)*4)/4^(2-0)^2)-4)+2*4)^3,9^9,0)");
-
-        assert_eq!(calculate(expr1, Postfix), 2.0);
-        assert_eq!(calculate(expr2, Postfix), 3.0);
-        assert_eq!(calculate(expr3, Postfix), 14.0);
-        assert_eq!(calculate(expr4, Postfix), 15.0);
-        assert_eq!(calculate(expr5, Postfix), 14.0);
-        assert_eq!(calculate(expr6, Postfix), 10.0);
-        assert_eq!(calculate(expr7, Postfix), -12.0);
-        assert_eq!(calculate(expr8, Postfix), 387420490.0);
+        let expr1 = "max(-12,2)";
+        let expr2 = "max(1+2, 2)";
+        let expr3 = "max(12,2)+2";
+        let expr4 = "3+max(12,2)";
+        let expr5 = "max(max(4,6,14), avg(3,4,5), min(2,99))";
+        let expr6 = "(1+(2+(3+(max(1,2,3,4))))";
+        let expr7 = "-max(12,2)";
+        let expr8 = "1+max(5!,((((8-0)/(5+5*6))^5+7+(((2-3)*4)/4^(2-0)^2)-4)+2*4)^3,9^9,0)";
+        
+        use Calculatealgorithm::*;
+        assert_eq!(calculate!(expr1, Postfix), 2.0);
+        assert_eq!(calculate!(expr2, Postfix), 3.0);
+        assert_eq!(calculate!(expr3, Postfix), 14.0);
+        assert_eq!(calculate!(expr4, Postfix), 15.0);
+        assert_eq!(calculate!(expr5, Postfix), 14.0);
+        assert_eq!(calculate!(expr6, Postfix), 10.0);
+        assert_eq!(calculate!(expr7, Postfix), -12.0);
+        assert_eq!(calculate!(expr8, Postfix), 387420490.0);
     }
 
     #[test]
