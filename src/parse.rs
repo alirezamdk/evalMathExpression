@@ -206,11 +206,11 @@ pub mod parser
 
 
 #[macro_export]
-macro_rules! parse 
+macro_rules! parse
 {
     ($ex: expr) => 
     {
-        crate::parse::parser::parse(&$ex.to_ascii_lowercase())
+        $crate::parse::parser::parse(&$ex.to_ascii_lowercase())
     };
 }
 
