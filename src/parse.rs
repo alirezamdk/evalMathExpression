@@ -19,12 +19,16 @@ pub mod parser
     /// use evalmath::general::tokens::{Operator::*, Term::{Oprand, Opratr}};
     /// 
     /// let parser = parser::parse("-1+3");
-    /// assert_eq!(parser, vec![Opratr(Neg), Oprand(1.0), Opratr(Add), Oprand(3.0)]);
+    /// assert_eq!(parser.unwrap(), vec![Opratr(Neg), Oprand(1.0), Opratr(Add), Oprand(3.0)]);
     /// 
     /// ```
 
-    pub fn parse(expr: &str) -> VecDeque<Term>
+    pub fn parse(expr: &str) -> Result<VecDeque<Term>, String>
     {
+        if expr.trim().is_empty()
+        {
+            return Err("input is empty".to_string());
+        }
         // this stack store parsed math expression
         // to store numbers
         let mut str_number: Vec<char> = Vec::new();
@@ -93,7 +97,7 @@ pub mod parser
             parse.push_back(Term::Oprand(str_to_f64(&str_number)));
         }
         
-        parse
+        Ok(parse)
     }
 
     #[inline]
@@ -238,24 +242,24 @@ mod test_parse
         let expr5 = parse!("arcsinh floor ceil phi[]()+0.9+5!!++arccotanh(pi*7)");
 
 
-        assert_eq!(expr1,   [Oprand(1.0), Opratr(Add), Oprand(3.14)]);
+        assert_eq!(expr1.unwrap(),   [Oprand(1.0), Opratr(Add), Oprand(3.14)]);
 
-        assert_eq!(expr2,   [Bracts(Oparantes), Functs(Log), Bracts(Oparantes),
+        assert_eq!(expr2.unwrap(),   [Bracts(Oparantes), Functs(Log), Bracts(Oparantes),
                             Oprand(5.0), Functs(Fact), Bracts(Cparantes), 
                             Bracts(Cparantes), Opratr(Add), Constn(Pi), 
                             Opratr(Div), Oprand(2.0), Opratr(Pow), 
                             Opratr(Module), Opratr(Add), Opratr(Add)]);
 
-        assert_eq!(expr3,   [Oprand(54635.4354325), Opratr(Sub), Oprand(86554654.547547),
+        assert_eq!(expr3.unwrap(),   [Oprand(54635.4354325), Opratr(Sub), Oprand(86554654.547547),
                             Opratr(Add), Oprand(765766578657656.0)]);
 
-        assert_eq!(expr4,   [Functs(Ceil), Functs(Floor), 
+        assert_eq!(expr4.unwrap(),   [Functs(Ceil), Functs(Floor), 
                             Bracts(Oparantes), Bracts(Cparantes), 
                             Bracts(Obracket), Bracts(Cbracket), 
                             Opratr(Pow), Constn(E), Functs(Ln),
                             Oprand(8.0001), Opratr(Add), Oprand(7.0)]);
 
-        assert_eq!(expr5,   [Functs(Arcsinh), Functs(Floor), Functs(Ceil),
+        assert_eq!(expr5.unwrap(),   [Functs(Arcsinh), Functs(Floor), Functs(Ceil),
                             Constn(Phi), Bracts(Obracket), Bracts(Cbracket), 
                             Bracts(Oparantes), Bracts(Cparantes), Opratr(Add), 
                             Oprand(0.9), Opratr(Add), Oprand(5.0), Functs(Fact), 
@@ -274,13 +278,13 @@ mod test_parse
         let expr4 = parse!("12-(12-1)--(19+20)---(11*2-(11+54+(-9-1))");
         
         
-        assert_eq!(expr1,   [Opratr(Neg), Opratr(Neg), Opratr(Neg), 
+        assert_eq!(expr1.unwrap(),   [Opratr(Neg), Opratr(Neg), Opratr(Neg), 
                             Opratr(Neg), Opratr(Neg), Oprand(9.0), 
                             Opratr(Add), Opratr(Neg), Opratr(Neg), 
                             Oprand(3.0), Opratr(Add), Opratr(Neg), 
                             Oprand(2.0)]);
 
-        assert_eq!(expr2,   [Opratr(Neg), Bracts(Oparantes), Opratr(Neg), 
+        assert_eq!(expr2.unwrap(),   [Opratr(Neg), Bracts(Oparantes), Opratr(Neg), 
                             Oprand(1.0), Opratr(Add), Oprand(0.0), 
                             Bracts(Cparantes), Opratr(Sub), Opratr(Neg), 
                             Bracts(Oparantes), Oprand(12.0), Opratr(Sub), 
@@ -288,12 +292,12 @@ mod test_parse
                             Oprand(8.0), Opratr(Sub), Opratr(Neg), 
                             Oprand(21.0)]);
 
-        assert_eq!(expr3,   [Bracts(Oparantes), Oprand(7.0), Opratr(Div), 
+        assert_eq!(expr3.unwrap(),   [Bracts(Oparantes), Oprand(7.0), Opratr(Div), 
                             Oprand(8.0), Opratr(Mul), Opratr(Neg), 
                             Oprand(1.0), Bracts(Cparantes), Opratr(Sub), 
                             Oprand(2.0), Opratr(Mul), Opratr(Neg), Oprand(9.0)]);
 
-        assert_eq!(expr4,   [Oprand(12.0), Opratr(Sub), Bracts(Oparantes), 
+        assert_eq!(expr4.unwrap(),   [Oprand(12.0), Opratr(Sub), Bracts(Oparantes), 
                             Oprand(12.0), Opratr(Sub), Oprand(1.0), 
                             Bracts(Cparantes), Opratr(Sub), Opratr(Neg), 
                             Bracts(Oparantes), Oprand(19.0), Opratr(Add), 

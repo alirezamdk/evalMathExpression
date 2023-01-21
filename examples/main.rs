@@ -7,5 +7,9 @@ fn main()
     let mut input = String::new();
     std::io::stdin().read_line(&mut input).unwrap();
     let res = calculate!(&input, ShuntingYard);
-    println!("Input:  {}\nResult {}", input, res.unwrap());
+    match res 
+    {
+        Ok(res) => println!("{} = {}",input, res),
+        Err(e) => println!("Error: {}", e),
+    }
 }

@@ -1,4 +1,4 @@
-use std::{collections::VecDeque};
+use std::{collections::VecDeque, fmt::Error};
 use crate::general::{tokens::*, mathfunc::math};
 
 
@@ -21,16 +21,21 @@ pub enum Calculatealgorithm
 
 
 
-pub fn calculate(expr: &VecDeque<Term>, calc_algorithm: Calculatealgorithm) -> Result<NumsType, String>
+pub fn calculate(expr: Result<VecDeque<Term>, String>, calc_algorithm: Calculatealgorithm) -> Result<NumsType, String>
 {
-    match calc_algorithm
+    match expr 
     {
-        Calculatealgorithm::DirectAlgebraic => todo!(),
-        Calculatealgorithm::ShuntingYard => Ok(calc_postfix(&infix_to_postfix(expr))),
-        Calculatealgorithm::ExpressionTree => todo!(),
+        Ok(expr) => match calc_algorithm
+        {
+            Calculatealgorithm::DirectAlgebraic => todo!(),
+            Calculatealgorithm::ShuntingYard => Ok(calc_postfix(&infix_to_postfix(&expr))),
+            Calculatealgorithm::ExpressionTree => todo!(),
+        },
+        Err(e) => Err(e),
     }
 }
 
+// Shunting Yard
 fn priority(term: Term) -> i8
 {
     match term 
@@ -71,8 +76,6 @@ fn priority(term: Term) -> i8
         Term::Constn(_) => 0,
     }
 }
-
-
 
 pub fn infix_to_postfix(expr: &VecDeque<Term>) -> VecDeque<Term>
 {
@@ -148,21 +151,6 @@ pub fn infix_to_perfix(expr: &VecDeque<Term>) -> VecDeque<Term>
     }
     perfix_stack
 }
-
-fn infix_to_tree()
-{}
-
-fn calc_tree()
-{}
-
-fn infix_add_parantes()
-{}
-
-fn calc_infix()
-{}
-
-fn calc_w3()
-{}
 
 fn pop_2_back(res_stack: &mut VecDeque<f64>) -> (NumsType, NumsType)
 {
@@ -332,6 +320,19 @@ pub fn calc_postfix(expr: &VecDeque<Term>) -> NumsType
 }
 
 
+// Expression tree
+fn infix_to_tree()
+{}
+
+fn calc_tree()
+{}
+
+// Direct Algebraic Logic
+fn infix_add_parantes()
+{}
+
+fn calc_infix()
+{}
 
 #[macro_export]
 macro_rules! calculate
@@ -345,7 +346,7 @@ macro_rules! calculate
     ($expression: expr, $algorithm: ident) => 
     {
         crate::calculate::calculate(
-            &crate::evalmath::parse::parser::parse(&$expression.to_ascii_lowercase()), 
+            crate::evalmath::parse::parser::parse(&$expression.to_ascii_lowercase()), 
             $algorithm)
     };
 }
@@ -502,14 +503,14 @@ mod postfix
     #[test]
     fn test_calculate_postfix_static_func()
     {
-        let expr1 = &parse!("max(-12,2)");
-        let expr2 = &parse!("max(1+2, 2)");
-        let expr3 = &parse!("max(12,2)+2");
-        let expr4 = &parse!("3+max(12,2)");
-        let expr5 = &parse!("max(max(4,6,14), avg(3,4,5), min(2,99))");
-        let expr6 = &parse!("(1+(2+(3+(max(1,2,3,4))))");
-        let expr7 = &parse!("-max(12,2)");
-        let expr8 = &parse!("1+max(5!,((((8-0)/(5+5*6))^5+7+(((2-3)*4)/4^(2-0)^2)-4)+2*4)^3,9^9,0)");
+        let expr1 = parse!("max(-12,2)");
+        let expr2 = parse!("max(1+2, 2)");
+        let expr3 = parse!("max(12,2)+2");
+        let expr4 = parse!("3+max(12,2)");
+        let expr5 = parse!("max(max(4,6,14), avg(3,4,5), min(2,99))");
+        let expr6 = parse!("(1+(2+(3+(max(1,2,3,4))))");
+        let expr7 = parse!("-max(12,2)");
+        let expr8 = parse!("1+max(5!,((((8-0)/(5+5*6))^5+7+(((2-3)*4)/4^(2-0)^2)-4)+2*4)^3,9^9,0)");
 
         assert_eq!(calculate(expr1, ShuntingYard).unwrap(), 2.0);
         assert_eq!(calculate(expr2, ShuntingYard).unwrap(), 3.0);

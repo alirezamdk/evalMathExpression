@@ -25,7 +25,7 @@ fn bench_calculate(c: &mut Criterion)
 {
     let input = BENCH_TEST_INPUT;
     let parse = parse(input);
-    let postfix = infix_to_postfix(&parse);
+    let postfix = infix_to_postfix(&parse.unwrap());
 
     c.bench_function("postfix calculate", move |b| 
     {
