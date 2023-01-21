@@ -23,7 +23,7 @@ fn main() {
 ```
 
 This will output:
--6 + 6 * 6 = 36
+```-6 + 6 * 6 = 36``` <br>
 Note: This example is just a basic example, the library may support more advanced mathematical expressions.
 
 ## 📚&nbsp;&nbsp;&nbsp;&nbsp;Supported Operators and Functions 
@@ -51,7 +51,7 @@ The library now by defualt uses the Shunting Yard algorithm for evaluating. Addi
 
 ## 🤗&nbsp;&nbsp;&nbsp;&nbsp;Contributions 
 
-Got an idea or a fix? I'm all ears! 
+Got an idea or a fix? I'm all ears! :) 
 
 
 ## ⚠️&nbsp;&nbsp;&nbsp;&nbsp;Note 
