@@ -14,10 +14,9 @@ pub enum AngelMode
 
 pub enum Calculatealgorithm
 {
-    Infix,
-    Postfix,
-    Tree,
-    W3,
+    DirectAlgebraic,     // Direct Algebraic Logic
+    ShuntingYard,        // Shunting Yard algorithm
+    ExpressionTree,      // Expression tree
 }
 
 
@@ -26,10 +25,9 @@ pub fn calculate(expr: &VecDeque<Term>, calc_algorithm: Calculatealgorithm) -> R
 {
     match calc_algorithm
     {
-        Calculatealgorithm::Infix => todo!(),
-        Calculatealgorithm::Postfix => Ok(calc_postfix(&infix_to_postfix(expr))),
-        Calculatealgorithm::Tree => todo!(),
-        Calculatealgorithm::W3 => todo!(),
+        Calculatealgorithm::DirectAlgebraic => todo!(),
+        Calculatealgorithm::ShuntingYard => Ok(calc_postfix(&infix_to_postfix(expr))),
+        Calculatealgorithm::ExpressionTree => todo!(),
     }
 }
 
@@ -342,7 +340,7 @@ macro_rules! calculate
     {
         crate::calculate::calculate(
             &crate::evalmath::parse::parser::parse(&$expression.to_ascii_lowercase()), 
-            $crate::calculate::Calculatealgorithm::Postfix)
+            $crate::calculate::Calculatealgorithm::ShuntingYard)
     };
     ($expression: expr, $algorithm: ident) => 
     {
@@ -513,14 +511,14 @@ mod postfix
         let expr7 = &parse!("-max(12,2)");
         let expr8 = &parse!("1+max(5!,((((8-0)/(5+5*6))^5+7+(((2-3)*4)/4^(2-0)^2)-4)+2*4)^3,9^9,0)");
 
-        assert_eq!(calculate(expr1, Postfix).unwrap(), 2.0);
-        assert_eq!(calculate(expr2, Postfix).unwrap(), 3.0);
-        assert_eq!(calculate(expr3, Postfix).unwrap(), 14.0);
-        assert_eq!(calculate(expr4, Postfix).unwrap(), 15.0);
-        assert_eq!(calculate(expr5, Postfix).unwrap(), 14.0);
-        assert_eq!(calculate(expr6, Postfix).unwrap(), 10.0);
-        assert_eq!(calculate(expr7, Postfix).unwrap(), -12.0);
-        assert_eq!(calculate(expr8, Postfix).unwrap(), 387420490.0);
+        assert_eq!(calculate(expr1, ShuntingYard).unwrap(), 2.0);
+        assert_eq!(calculate(expr2, ShuntingYard).unwrap(), 3.0);
+        assert_eq!(calculate(expr3, ShuntingYard).unwrap(), 14.0);
+        assert_eq!(calculate(expr4, ShuntingYard).unwrap(), 15.0);
+        assert_eq!(calculate(expr5, ShuntingYard).unwrap(), 14.0);
+        assert_eq!(calculate(expr6, ShuntingYard).unwrap(), 10.0);
+        assert_eq!(calculate(expr7, ShuntingYard).unwrap(), -12.0);
+        assert_eq!(calculate(expr8, ShuntingYard).unwrap(), 387420490.0);
     }
 
     #[test]
