@@ -23,16 +23,16 @@ fn main() {
 ```
 
 This will output:
-```-6 + 6 * 6 = 36``` <br>
+`-6 + 6 * 6 = 36` <br>
 Note: This example is just a basic example, the library may support more advanced mathematical expressions.
 
-Want to see evalmath in action? Simply run ```cargo run --example main.rs``` in project root
+Want to see evalmath in action? Simply run `cargo run --example main.rs` in project root
 
 ## 📚&nbsp;&nbsp;&nbsp;&nbsp;Supported Operators and Functions 
 
-- The library supports all common mathematical operators such as +, -, *, /, ^, etc.
-- It also supports a wide range of mathematical functions like sqrt, log, ln, floor, sin, cos, sinh, cosh, tan, tanh, asin, acos, atan, abs, exp, max, min, round, ceil, floor, etc.
-- It also supports conversion functions like bin, hex, oct, etc.
+- The library supports all common mathematical operators such as `+`, `-`, `*`, `/`, `^`, `!`, etc.
+- It also supports a wide range of mathematical functions like `sqrt`, `log`, `ln`, `floor`, `sin`, `cos`, `sinh`, `cosh`, `tan`, `tanh`, `abs`, `max`, `min`, `var`, `round`, etc...
+- It also supports conversion functions like `bin`, `hex`, `oct`, etc...
 
 You can find a complete list of supported operators and functions [in the tokens.rs file](https://github.com/alirezamdk/evalMathExpression/blob/main/src/general/tokens.rs), specifically in the TokenType enum.
 
