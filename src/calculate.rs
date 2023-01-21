@@ -4,6 +4,7 @@ use crate::general::{tokens::*, mathfunc::math};
 
 static mut ANGEL_MODE: AngelMode = AngelMode::Radians;
 
+#[derive(Clone, Copy)]
 pub enum AngelMode
 {
     Degree,     // 0 - 360
@@ -249,25 +250,88 @@ pub fn calc_postfix(expr: &VecDeque<Term>) -> NumsType
                         math::abs(a)
                     }
                     
-                    Function::Sin => todo!(),
-                    Function::Cos => todo!(),
-                    Function::Tan => todo!(),
-                    Function::Cotan => todo!(),
+                    Function::Sin => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::sin(a, unsafe { ANGEL_MODE })
+                    },
+                    Function::Cos => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::cos(a, unsafe { ANGEL_MODE })
+                    },
+                    Function::Tan => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::tan(a, unsafe { ANGEL_MODE })
+                    },
+                    Function::Cotan => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::cotan(a, unsafe { ANGEL_MODE })
+                    },
 
-                    Function::Arcsin => todo!(),
-                    Function::Arccos => todo!(),
-                    Function::Arctan => todo!(),
-                    Function::Arccotan => todo!(),
+                    Function::Arcsin =>
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::arcsin(a, unsafe { ANGEL_MODE })
+                    },
+                    Function::Arccos => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::arccos(a, unsafe { ANGEL_MODE })
+                    },
+                    Function::Arctan => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::arctan(a, unsafe { ANGEL_MODE })
+                    },
+                    Function::Arccotan => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::arccotan(a, unsafe { ANGEL_MODE })
+                    },
 
-                    Function::Sinh => todo!(),
-                    Function::Cosh => todo!(),
-                    Function::Tanh => todo!(),
-                    Function::Cotanh => todo!(),
-
-                    Function::Arcsinh => todo!(),
-                    Function::Arccosh => todo!(),
-                    Function::Arctanh => todo!(),
-                    Function::Arccotanh => todo!(),
+                    Function::Sinh => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::sinh(a, unsafe { ANGEL_MODE })
+                    },
+                    Function::Cosh => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::cosh(a, unsafe { ANGEL_MODE })
+                    },
+                    Function::Tanh => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::tanh(a, unsafe { ANGEL_MODE })
+                    },
+                    Function::Cotanh => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::cotanh(a, unsafe { ANGEL_MODE })
+                    },
+                    Function::Arcsinh => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::arcsinh(a, unsafe { ANGEL_MODE })
+                    },
+                    Function::Arccosh => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::arccosh(a, unsafe { ANGEL_MODE })
+                    },
+                    Function::Arctanh => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::arctanh(a, unsafe { ANGEL_MODE })
+                    },
+                    Function::Arccotanh => 
+                    {
+                        let a = pop_back(&mut res_stack);
+                        math::arccotanh(a, unsafe { ANGEL_MODE })
+                    },
 
                     Function::Max =>
                     {

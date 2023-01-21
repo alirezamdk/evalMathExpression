@@ -1,8 +1,9 @@
 
 pub mod math
 {
+    use core::num;
     use std::{collections::VecDeque};
-    use crate::general::tokens::*;
+    use crate::{general::tokens::*, calculate::AngelMode};
 
     pub fn power(a: NumsType, b: NumsType) -> NumsType
     {
@@ -64,6 +65,109 @@ pub mod math
     {
         NumsType::abs(a)
     }
+
+    pub fn sin(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(NumsType::sin(a), mode)
+    }
+
+    pub fn cos(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(NumsType::cos(a), mode)
+    }
+
+    pub fn tan(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(NumsType::tan(a), mode)
+    }
+
+    pub fn cotan(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(1.0 / NumsType::tan(a), mode)
+    }
+
+    pub fn arcsin(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(NumsType::asin(a), mode)
+    }
+
+    pub fn arccos(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(NumsType::acos(a), mode)
+    }
+
+    pub fn arctan(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(NumsType::atan(a), mode)
+    }
+
+    pub fn arccotan(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(1.0 / NumsType::atan(a), mode)
+    }
+
+    pub fn sinh(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(NumsType::sinh(a), mode)
+    }
+
+    pub fn cosh(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(NumsType::cosh(a), mode)
+    }
+
+    pub fn tanh(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(NumsType::tanh(a), mode)
+    }
+
+    pub fn cotanh(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(1.0 / NumsType::tan(a), mode)
+    }
+
+
+    pub fn arcsinh(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(ln(a) + ln(sqrt(power(a, 2.0) + 1.0)), mode)
+    }
+
+    pub fn arccosh(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(ln(sqrt(a + (power(a, 2.0) - 1.0))), mode)
+    }
+
+    pub fn arctanh(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(0.5 * ((ln(1.0 + a) - ln(1.0 - a))), mode)
+    }
+
+    pub fn arccotanh(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        convert_angle(0.5 * (ln(a + 1.0) - ln(a - 1.0)), mode)
+    }
+    
+
+    fn convert_angle(a: NumsType, mode: AngelMode) -> NumsType
+    {
+        match mode
+        {
+            AngelMode::Degree => rad_to_deg(a),
+            AngelMode::Radians => a,
+            AngelMode::Gradians => rad_to_grad(a),
+        }
+    }
+
+    fn rad_to_deg(rad: NumsType) -> NumsType
+    {
+        rad * 180.0 / std::f64::consts::PI
+    }
+
+    fn rad_to_grad(rad: NumsType) -> NumsType
+    {
+        rad * 200.0 / std::f64::consts::PI
+    }
+    
 
     pub fn max(expr: &VecDeque<Term>, term_num: &mut usize, res_stack: &mut  VecDeque<NumsType>) -> NumsType
     {
