@@ -6,6 +6,6 @@ fn main()
 {
     let mut input = String::new();
     std::io::stdin().read_line(&mut input).unwrap();
-    let res = calculate!(&input, Postfix);
+    let res = calculate!(&input, ShuntingYard);
     println!("Input:  {}\nResult {}", input, res.unwrap());
 }
