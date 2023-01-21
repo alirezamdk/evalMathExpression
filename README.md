@@ -26,6 +26,8 @@ This will output:
 ```-6 + 6 * 6 = 36``` <br>
 Note: This example is just a basic example, the library may support more advanced mathematical expressions.
 
+Want to see evalmath in action? Simply run ```cargo run --example main.rs``` in project root
+
 ## 📚&nbsp;&nbsp;&nbsp;&nbsp;Supported Operators and Functions 
 
 - The library supports all common mathematical operators such as +, -, *, /, ^, etc.
