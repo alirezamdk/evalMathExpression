@@ -21,6 +21,13 @@ pub enum Calculatealgorithm
 }
 
 
+pub fn round_to_decimal(num: f64) -> f64 
+{
+    let decimal_places = 14;
+    let precision = 10.0_f64.powi(-decimal_places);
+    (num * (1.0 / precision)).round() * precision
+}
+
 
 pub fn calculate(expr: Result<VecDeque<Term>, String>, calc_algorithm: Calculatealgorithm) -> Result<NumsType, String>
 {
@@ -404,7 +411,7 @@ macro_rules! calculate
     ($expression: expr) => 
     {
         crate::calculate::calculate(
-            &crate::evalmath::parse::parser::parse(&$expression.to_ascii_lowercase()), 
+            crate::evalmath::parse::parser::parse(&$expression.to_ascii_lowercase()), 
             $crate::calculate::Calculatealgorithm::ShuntingYard)
     };
     ($expression: expr, $algorithm: ident) => 
