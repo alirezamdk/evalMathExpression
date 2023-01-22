@@ -1,6 +1,6 @@
 extern crate evalmath;
 use evalmath::calculate;
-use calculate::Calculatealgorithm::*;
+use calculate::{*, Calculatealgorithm::*};
 
 fn main() 
 {
