@@ -21,7 +21,7 @@ pub enum Calculatealgorithm
 }
 
 
-pub fn round_to_decimal(num: f64) -> f64 
+pub fn round_to_decimal(num: NumsType) -> NumsType 
 {
     let decimal_places = 14;
     let precision = 10.0_f64.powi(-decimal_places);
