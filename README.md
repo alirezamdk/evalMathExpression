@@ -24,7 +24,7 @@ fn main() {
 
 This will output:
 `-6 + 6 * 6 = 36` <br>
-Note: This example is just a basic example, the library may support more advanced mathematical expressions.
+Note: This example is just a basic example, the library support more advanced mathematical expressions.
 
 Want to see evalmath in action? Simply run `cargo run --example main.rs` in project root
 
