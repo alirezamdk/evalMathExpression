@@ -420,6 +420,12 @@ macro_rules! calculate
             crate::evalmath::parse::parser::parse(&$expression.to_ascii_lowercase()), 
             $algorithm)
     };
+    ($expression: expr, $algorithm: ident, $degmod: ident, $base: expr) => 
+    {
+        crate::calculate::calculate(
+            crate::evalmath::parse::parser::parse(&$expression.to_ascii_lowercase()), 
+            $algorithm)
+    };
 }
 
 
