@@ -48,7 +48,7 @@ This library can convert mathematical expressions to a tree, postfix, and prefix
 
 ## 🌳 &nbsp;&nbsp; Algorithms
 
-The library now by defualt uses the Shunting Yard algorithm for evaluating. Additionally, it also supports expression tree, Direct Algebraic Logic (DAL) algorithm.
+This library by defualt use the Shunting Yard algorithm for evaluating. Additionally, it also supports expression tree, Direct Algebraic Logic (DAL) algorithm.
 
 
 ## 🤗 &nbsp;&nbsp; Contributions 
