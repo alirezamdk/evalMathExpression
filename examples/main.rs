@@ -9,7 +9,7 @@ fn main()
     let res = calculate!(&input, ShuntingYard);
     match res 
     {
-        Ok(res) => println!("{} = {}",input, res),
+        Ok(res) => println!("{}", res),
         Err(e) => println!("Error: {}", e),
     }
 }
