@@ -160,12 +160,12 @@ pub mod math
 
     fn rad_to_deg(rad: NumsType) -> NumsType
     {
-        rad * 180.0 / std::f64::consts::PI
+        rad * 180.0 / std::f64::consts::PI as NumsType
     }
 
     fn rad_to_grad(rad: NumsType) -> NumsType
     {
-        rad * 200.0 / std::f64::consts::PI
+        rad * 200.0 / std::f64::consts::PI as NumsType
     }
     
 

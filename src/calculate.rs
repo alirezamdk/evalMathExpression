@@ -25,7 +25,7 @@ pub fn round_to_decimal(num: NumsType) -> NumsType
 {
     let decimal_places = 14;
     let precision = 10.0_f64.powi(-decimal_places);
-    (num * (1.0 / precision)).round() * precision
+    (num * (1 as NumsType  / precision as NumsType )).round() * precision as NumsType 
 }
 
 
@@ -160,15 +160,15 @@ pub fn infix_to_perfix(expr: &VecDeque<Term>) -> VecDeque<Term>
     perfix_stack
 }
 
-fn pop_2_back(res_stack: &mut VecDeque<f64>) -> (NumsType, NumsType)
+fn pop_2_back(res_stack: &mut VecDeque<NumsType>) -> (NumsType, NumsType)
 {
     (pop_back(res_stack)
     ,pop_back(res_stack))
 }
 
-fn pop_back(res_stack: &mut VecDeque<f64>) -> NumsType
+fn pop_back(res_stack: &mut VecDeque<NumsType>) -> NumsType
 {
-    res_stack.pop_back().expect("experssion problem")
+    res_stack.pop_back().expect("experssion problem") as NumsType
 }
 
 pub fn calc_postfix(expr: &VecDeque<Term>) -> NumsType
@@ -378,7 +378,7 @@ pub fn calc_postfix(expr: &VecDeque<Term>) -> NumsType
                     Constant::Phi => 1.61,
                 };
 
-                res_stack.push_back(constant);
+                res_stack.push_back(constant as NumsType);
             },
             Term::Bracts(_) => {},
         }

@@ -135,9 +135,9 @@ fn test_calculate_postfix()
                         Oprand(3.0), Opratr(Add), Oprand(3.0), 
                         Opratr(Sub)]);
 
-    assert_eq!(calc_postfix(&expr1), 1325.5620206713477_f64);
-    assert_eq!(calc_postfix(&expr2), 126.30387031375818_f64);
-    assert_eq!(calc_postfix(&expr3), 11.58088599101792_f64);
+    assert_eq!(calc_postfix(&expr1), 1325.5620206713477  as NumsType);
+    assert_eq!(calc_postfix(&expr2), 126.30387031375818  as NumsType);
+    assert_eq!(calc_postfix(&expr3), 11.58088599101792  as NumsType);
     assert!((calc_postfix(&expr4) - 3.88888 < 0.00001));
 }
 
